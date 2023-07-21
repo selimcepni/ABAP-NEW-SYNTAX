@@ -1,0 +1,1422 @@
+*&---------------------------------------------------------------------*
+*& Report ZNEW_SYNTAX
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT znew_syntax.
+
+
+*-------------------------------------------
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*******************************************
+****INLINE DECLARATION / DEĞİŞKEN TANIMLAMA
+*******************************************
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+**
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+
+*DATA: gv_name TYPE CHAR20.
+*      gv_name = ' Selim '.
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*DATA(lv_name) = 'Selim'.
+
+
+
+
+
+*-------------------------------------------
+*
+*LOOP AT INTO
+*
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+
+*DATA: gt_scarr TYPE TABLE OF scarr,
+*gs_scarr type scarr.
+*
+*SELECT * FROM scarr
+*   INTO TABLE gt_scarr.
+*
+*LOOP AT gt_scarr INTO gs_scarr.
+*
+* WRITE: / gs_scarr-carrname, '-', gs_scarr-currcode.
+*
+*ENDLOOP.
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*DATA: gt_scarr TYPE TABLE OF scarr.
+*SELECT * FROM scarr
+*   INTO TABLE gt_scarr.
+*
+*LOOP AT gt_scarr INTO DATA(ls_scarr) .
+*WRITE: / ls_scarr-carrname, '-', ls_scarr-currcode.
+*ENDLOOP.
+
+
+
+
+
+*-------------------------------------------
+*
+*READ TABLE INTO
+*
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+
+*DATA: gt_scarr TYPE TABLE OF scarr,
+*      gs_scarr TYPE scarr.
+*
+*SELECT * FROM scarr
+*   INTO TABLE gt_scarr.
+*
+*READ TABLE gt_scarr INTO  gs_scarr WITH KEY currcode = 'JPY'.
+*IF sy-subrc EQ 0.
+*  WRITE: / gs_scarr-carrname, '-' , gs_scarr-currcode.
+*ENDIF.
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+
+*DATA: gt_scarr TYPE TABLE OF scarr.
+*SELECT * FROM scarr
+*  INTO TABLE gt_scarr.
+*READ TABLE gt_scarr INTO DATA(ls_scarr) WITH KEY currcode = 'JPY'.
+*IF sy-subrc EQ 0.
+*  WRITE: / ls_scarr-carrname, '-' , ls_scarr-currcode.
+*ENDIF.
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*LOOP AT ASSİNGİNG / LOOP İLE ATAMA YAPMA
+*
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+
+*DATA: gt_scarr TYPE TABLE OF scarr,
+*      gs_scarr TYPE scarr.
+*
+*FIELD-SYMBOLS: <gfs_scarr> TYPE scarr.
+*
+*SELECT * FROM scarr
+*   INTO TABLE gt_scarr.
+*
+*LOOP AT gt_scarr ASSIGNING <gfs_scarr>.
+*
+*IF <gfs_scarr>-currcode eq 'EUR'.
+*<gfs_scarr>-currcode = 'TL'.
+*ENDIF.
+*ENDLOOP.
+*
+*LOOP AT gt_scarr INTO gs_scarr.
+*WRITE: / gs_scarr-carrname, '-', gs_scarr-currcode.
+*ENDLOOP.
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*DATA: gt_scarr TYPE TABLE OF scarr.
+*
+*SELECT * FROM scarr
+*   INTO TABLE gt_scarr.
+*
+*LOOP AT gt_scarr ASSIGNING FIELD-SYMBOL(<lfs_scarr>).
+*
+*IF <lfs_scarr>-currcode eq 'EUR'.
+*<lfs_scarr>-currcode = 'TL'.
+*ENDIF.
+*ENDLOOP.
+*
+*LOOP AT gt_scarr INTO DATA(ls_scarr).
+*WRITE: / ls_scarr-carrname, '-', ls_scarr-currcode.
+*ENDLOOP.
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*READ TABLE ASSİNGİNG
+*
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+*
+*DATA: gt_scarr TYPE TABLE OF scarr,
+*      gs_scarr type scarr.
+*
+*FIELD-SYMBOLS: <gfs_scarr> TYPE scarr.
+*
+*SELECT * FROM scarr
+*   INTO TABLE gt_scarr.
+*
+*
+*READ TABLE gt_scarr ASSIGNING <gfs_scarr> with key currcode = 'JPY'.
+*IF SY-SUBRC EQ 0.
+*<gfs_scarr>-carrname = 'Turkish Airlines'.
+*ENDIF.
+*
+*READ TABLE gt_scarr INTO gs_scarr with key currcode = 'JPY'.
+*IF SY-SUBRC EQ 0.
+*
+*WRITE: / gs_scarr-carrname, '-', gs_scarr-currcode.
+*ENDIF.
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*DATA: gt_scarr TYPE TABLE OF scarr.
+*
+*SELECT * FROM scarr
+*   INTO TABLE gt_scarr.
+*
+*READ TABLE gt_scarr ASSIGNING FIELD-SYMBOL(<lfs_scarr>) with key currcode = 'JPY'.
+*IF SY-SUBRC EQ 0.
+*<lfs_scarr>-carrname = 'Turkish Airlines'.
+*ENDIF.
+*
+*READ TABLE gt_scarr INTO data(ls_scarr) with key currcode = 'JPY'.
+*IF SY-SUBRC EQ 0.
+*WRITE: / ls_scarr-carrname, '-', ls_scarr-currcode.
+*ENDIF.
+
+
+
+
+
+
+*-------------------------------------------
+*
+*SELECT INTO TABLE
+*
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+*
+*DATA: gt_scarr TYPE scarr.
+*
+
+*SELECT * FROM scarr
+*   INTO TABLE gt_scarr.
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+
+
+*SELECT * FROM scarr
+* INTO TABLE @DATA(lt_scarr).
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*SELECT SINGLE INTO
+*
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+*
+*DATA: gs_scarr TYPE scarr.
+*
+*SELECT SINGLE
+*carrname
+*currcode
+* FROM scarr
+*   INTO CORRESPONDING FIELDS OF gs_scarr
+* WHERE currcode EQ 'JPY'.
+
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*SELECT SINGLE
+*carrname,
+*currcode
+* FROM scarr
+*   INTO @DATA(ls_scarr)
+* WHERE currcode EQ 'JPY'.
+*
+*BREAK-POINT.
+
+
+
+
+*-------------------------------------------
+*
+*CALL METHOD
+*
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+*
+*CLASS lcl_main DEFINITION.
+*  PUBLIC SECTION.
+*    METHODS:
+*      sum_numbers IMPORTING iv_num1   TYPE i
+*                            iv_num2   TYPE i
+*                  EXPORTING ev_result TYPE i.
+*
+*ENDCLASS.
+*
+*CLASS lcl_main IMPLEMENTATION.
+*  METHOD sum_numbers.
+*    ev_result = iv_num1 + iv_num2.
+*  ENDMETHOD.
+*ENDCLASS.
+*
+*DATA: gv_num1  TYPE i,
+*      gv_num2  TYPE i,
+*      gv_resut TYPE i.
+*DATA: go_main TYPE REF TO lcl_main.
+*
+*START-OF-SELECTION.
+*
+*  CREATE OBJECT go_main.
+*
+*  gv_num1 = 20.
+*  gv_num2 = 10.
+*
+*  go_main->sum_numbers(
+*    EXPORTING
+*      iv_num1   = gv_num1
+*      iv_num2   = gv_num2
+*    IMPORTING
+*      ev_result = gv_resut
+*  ).
+*
+*
+*  WRITE: 'Result = ', gv_resut.
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+
+*
+*CLASS lcl_main DEFINITION.
+*  PUBLIC SECTION.
+*    METHODS:
+*      sum_numbers IMPORTING iv_num1   TYPE i
+*                            iv_num2   TYPE i
+*                  EXPORTING ev_result TYPE i.
+*
+*ENDCLASS.
+*
+*CLASS lcl_main IMPLEMENTATION.
+*  METHOD sum_numbers.
+*    ev_result = iv_num1 + iv_num2.
+*  ENDMETHOD.
+*ENDCLASS.
+*
+*DATA: gv_num1 TYPE i,
+*      gv_num2 TYPE i.
+*
+*DATA: go_main TYPE REF TO lcl_main.
+*
+*START-OF-SELECTION.
+*
+*  CREATE OBJECT go_main.
+*
+*  gv_num1 = 20.
+*  gv_num2 = 10.
+*
+*  go_main->sum_numbers(
+*    EXPORTING
+*      iv_num1   = gv_num1
+*      iv_num2   = gv_num2
+*    IMPORTING
+*      ev_result = DATA(lv_result)
+*  ).
+*
+*
+*  WRITE: 'Result = ', lv_result.
+
+
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*******************************************
+***Table Expression (Tablo İfadeleri)
+*******************************************
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+**
+*-------------------------------------------
+
+
+
+
+
+*-------------------------------------------
+*
+*READ TABLE INDEX
+*
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+
+*
+*DATA:  gt_scarr TYPE TABLE OF scarr,
+*                gs_scarr type scarr.
+*
+*SELECT * FROM scarr
+*    into  table gt_scarr.
+*
+*
+*READ TABLE gt_scarr into gs_scarr INDEX 3.
+*  IF sy-subrc eq 0.
+*    WRITE: gs_scarr-carrname, '-', gs_scarr-currcode.
+*  ENDIF.
+*
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*SELECT * FROM scarr
+*  INTO TABLE @DATA(lt_scarr).
+*TRY .
+*    DATA(ls_scarr) = lt_scarr[ 20 ].
+*  CATCH cx_sy_itab_line_not_found.
+*    WRITE: / 'Not Found'.
+*ENDTRY.
+*
+*IF ls_scarr IS NOT INITIAL.
+*  WRITE: ls_scarr-carrname, '-', ls_scarr-currcode.
+*ENDIF.
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*READ TABLE INDEX WITH KEY
+*
+*-------------------------------------------
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+
+
+*DATA:  gt_scarr TYPE TABLE OF scarr,
+*                gs_scarr type scarr.
+*
+*SELECT * FROM scarr
+*    into  table gt_scarr.
+*
+*
+*READ TABLE gt_scarr into gs_scarr WITH KEY currcode = 'JPY'.
+*  IF sy-subrc eq 0.
+*    WRITE: gs_scarr-carrname, '-', gs_scarr-currcode.
+*  ENDIF.
+
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*SELECT * FROM scarr
+*  INTO TABLE @DATA(lt_scarr).
+*TRY .
+*    DATA(ls_scarr) = lt_scarr[ currcode = 'JPY' ].
+*  CATCH cx_sy_itab_line_not_found.
+*    WRITE: / 'Not Found'.
+*ENDTRY.
+*
+*IF ls_scarr IS NOT INITIAL.
+*  WRITE: ls_scarr-carrname, '-', ls_scarr-currcode.
+*ENDIF.
+
+
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*DOES RECORD EXİST / DATA KONTROLÜ
+*
+*-------------------------------------------
+
+
+
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+
+
+*
+*DATA:  gt_scarr TYPE TABLE OF scarr.
+*
+*SELECT * FROM scarr
+*    INTO  TABLE gt_scarr.
+*
+*
+*READ TABLE gt_scarr TRANSPORTING NO FIELDS INDEX 5.
+*IF sy-subrc EQ 0.
+*  WRITE: / 'Kayit Bulundu'.
+*ELSE.
+*  WRITE: / 'Kayit Bulunamadı'.
+*ENDIF.
+*
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+
+*SELECT * FROM scarr
+*  INTO TABLE @DATA(lt_scarr).
+*
+*IF line_exists( lt_scarr[ currcode = 'JPY' ] ).
+*
+*  WRITE: / 'Kayit Bulundu'.
+*ELSE.
+*
+*  WRITE: / 'Kayit Bulunamadı'.
+*ENDIF.
+
+
+
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*GET TABLE INDEX
+*
+*-------------------------------------------
+
+
+
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+
+
+
+*DATA:  gt_scarr TYPE TABLE OF scarr,
+*      lv_tabix TYPE i.
+*
+*SELECT * FROM scarr
+*    INTO  TABLE gt_scarr.
+*
+*
+*READ TABLE gt_scarr TRANSPORTING NO FIELDS WITH KEY currcode = 'JPY'.
+*
+*IF sy-subrc EQ 0.
+*  lv_tabix = sy-tabix.
+*  write: / 'Index => ', lv_tabix.
+*
+*ENDIF.
+
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*
+*SELECT * FROM scarr
+*  INTO TABLE @DATA(lt_scarr).
+*
+*DATA(lv_tabix) = line_index( lt_scarr[ currcode = 'JPY' ] ).
+*
+*WRITE: / 'Index => ', lv_tabix.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*READ TABLE OPTİONAL
+*
+*-------------------------------------------
+
+
+
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+*
+*SELECT * FROM scarr
+*    INTO TABLE @DATA(lt_scarr).
+*
+*READ TABLE lt_scarr INTO DATA(ls_scarr) WITH KEY carrid = 'AZ'.
+*
+*
+*TRY .
+*    DATA(ls_scarr2) = lt_scarr[ carrid = 'AZ' ].
+*  CATCH cx_sy_itab_line_not_found.
+*ENDTRY.
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+**
+*SELECT * FROM scarr
+*  INTO TABLE @DATA(lt_scarr).
+*
+*DATA(ls_scarr3) = VALUE #( lt_scarr[ carrid = 'AZ' ] OPTIONAL ).
+
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*******************************************
+*** DATA OPERATIONS
+*******************************************
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+**
+*-------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*CONV
+*
+*-------------------------------------------
+*
+*DATA(lv_result) = sqrt( 5 ) + sqrt( 6 ).
+*
+*WRITE: / 'Integar Donusturulmedi', lv_result.
+*
+*DATA(lv_result2) = CONV i( sqrt( 5 ) ) + CONV i( sqrt( 6 ) ).
+*
+*WRITE: / 'Integar Donusturuldu', lv_result2.
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*VALUE
+*
+*-------------------------------------------
+*
+
+
+*TYPES: BEGIN OF gty_struct,
+*         col1 TYPE i,
+*         col2 TYPE i,
+*         col3 TYPE i,
+*
+*       END OF gty_struct.
+*
+*DATA: gt_struct TYPE TABLE OF gty_struct,
+*gs_struct TYPE gty_struct.
+
+
+
+*DATA(ls_struct) = VALUE gty_struct( col1 = 10
+*                                    col2 = 30
+*                                    col3 = 40 ).
+
+
+*gt_struct = VALUE #( ( col1 = 10 col2 = 20 col3 = 60 )
+*                     ( col1 = 10 col2 = 20 col3 = 50 )
+*                     ( col1 = 10 col2 = 20 col3 = 50 ) ).
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+* FOR
+*
+*-------------------------------------------
+*
+
+*TYPES: BEGIN OF gty_customer,
+*         customer TYPE i,
+*         name     TYPE char30,
+*         country  TYPE char2,
+*       END OF gty_customer.
+*
+*
+*
+*TYPES: BEGIN OF gty_countries,
+*         country TYPE char2,
+*         name    TYPE char30,
+*       END OF gty_countries.
+*
+*DATA: gt_customer  TYPE TABLE OF gty_customer,
+*      gt_countries TYPE TABLE OF gty_countries.
+*
+*
+*gt_customer = VALUE #( ( customer = 53 name = 'SELIM' country = 'TR' )
+*                       ( customer = 34 name = 'AYBALA' country = 'AZ' )
+*                       ( customer = 19 name = 'DAVID' country = 'EN' )
+*).
+
+*gt_countries = VALUE #( FOR ls_customer IN gt_customer ( country = ls_customer-country
+*                                                         name = ls_customer-name ) ).
+
+*gt_countries = VALUE #( FOR ls_customer IN gt_customer WHERE ( customer GT 20 ) ( country = ls_customer-country ) ).
+
+
+
+
+
+
+*-------------------------------------------
+*
+* COND -- SIMILAR TO ELSE-IF
+*
+*-------------------------------------------
+*
+
+
+
+
+*
+*DATA: gv_note TYPE i.
+*
+*gv_note = 30.
+*
+*DATA(LV_LETTER) = COND string( WHEN gv_note >= 100 THEN 'AA'
+*                               WHEN gv_note >= 80 THEN 'BB'
+*                               WHEN gv_note >= 60 THEN 'CC'
+*                               WHEN gv_note >= 40 THEN 'DD'
+*                               ELSE 'FF' ).
+*WRITE: / 'Harf Notu', lv_letter.
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+* SWITCH WHEN - CASE WHEN
+*
+*-------------------------------------------
+*
+
+*
+*DATA: gv_number TYPE i.
+*
+*gv_number = 3.
+*
+*
+*DATA(lv_result) = SWITCH string( gv_number
+*                  WHEN 1 THEN 'Sayının Değeri 1 '
+*                  WHEN 2 THEN 'Sayının Değeri 2 '
+*                  WHEN 3 THEN 'Sayının Değeri 3 '
+*                  WHEN 4 THEN 'Sayının Değeri 4 '
+*                  WHEN 5 THEN 'Sayının Değeri 5 '
+*                  ELSE 'Not Found' ).
+*WRITE: / '  Sayı', lv_result.
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+* CORRESPONDING
+*
+*-------------------------------------------
+*
+
+
+*
+*
+*
+*
+*
+*
+*TYPES: BEGIN OF gty_typ1,
+*         col1 TYPE char1,
+*         col2 TYPE char1,
+*       END OF gty_typ1.
+*
+*
+*TYPES: BEGIN OF gty_typ2,
+*         col1 TYPE char1,
+*         col2 TYPE char1,
+*         col3 TYPE char1,
+*       END OF gty_typ2.
+*
+*
+*DATA: gt_table1 TYPE TABLE OF gty_typ1,
+*      gt_table2 TYPE TABLE OF gty_typ2.
+*
+*
+*gt_table1 = VALUE #( ( col1 = 'A' col2 = '1' )
+*                     ( col1 = 'B' col2 = '2' )
+*                     ( col1 = 'C' col2 = '3' )
+*                     ( col1 = 'D' col2 = '4' ) ).
+*
+
+*
+*gt_table2 = CORRESPONDING #( gt_table1 ).
+
+
+*gt_table2 = CORRESPONDING #( gt_table1 EXCEPT col1 ).
+
+*
+*gt_table2 = CORRESPONDING #( gt_table1 MAPPING col3 = col1 ).
+
+*
+*cl_demo_output=>write_data( gt_table1 ).
+*cl_demo_output=>write_data( gt_table2 ).
+*cl_demo_output=>display( ).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+* FILTER / FİLTRE
+*
+*-------------------------------------------
+*
+*
+*
+*
+*
+*
+*
+*
+*TYPES: BEGIN OF gty_filter,
+*         currcode TYPE s_currcode,
+*       END OF gty_filter.
+*
+*DATA: gt_filter TYPE SORTED TABLE OF gty_filter WITH UNIQUE KEY currcode.
+*
+*gt_filter = VALUE #( ( currcode = 'USD' )
+*                      ( currcode = 'EUR' ) ).
+*
+*SELECT * FROM scarr
+*  INTO TABLE @DATA(lt_scarr).
+*
+*DATA(lt_result) = FILTER #( lt_scarr IN gt_filter WHERE currcode EQ currcode ).
+*
+*
+*cl_demo_output=>write_data( lt_scarr ).
+*
+*cl_demo_output=>write_data( lt_result ).
+*
+*cl_demo_output=>display( ).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*******************************************
+***  STRING
+*******************************************
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+**
+*-------------------------------------------
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*CONCATENATE
+*
+*-------------------------------------------
+
+
+
+
+*-------------------------------------------
+*
+*OLD
+*
+*-------------------------------------------
+*
+*
+
+*DATA: gv_output TYPE STRING.
+*
+*
+*
+*CONCATENATE 'Hello'  'world' INTO gv_output SEPARATED BY space.
+*
+*
+*WRITE: gv_output.
+
+
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+
+
+*DATA(lv_out) = |Hello| & | | & |World|.
+*WRITE: lv_out.
+
+
+
+
+
+*
+*
+*
+*
+*DATA: gv_string TYPE char10.
+*
+*gv_string = 'Hello'.
+*
+*DATA(lv_out) = | { gv_string } | & |  | & | World |.
+*
+*WRITE: lv_out.
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*WRITE WITH WIDTH/ALLIGMENT/PADDING
+*
+*-------------------------------------------
+
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+
+*
+*WRITE: / |{ 'Left' WIDTH = 20 ALIGN = LEFT      PAD = '-'}|.
+*WRITE: / |{ 'Center' WIDTH = 20 ALIGN = CENTER PAD = '-'}|.
+*WRITE: / |{ 'Right' WIDTH = 20 ALIGN = RIGHT   PAD = '-'}|.
+
+
+
+
+
+
+*-------------------------------------------
+*
+*ALPHA CONVERSION
+*
+*-------------------------------------------
+
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+
+
+
+
+*CLASS lcl_main DEFINITION.
+*  PUBLIC SECTION.
+*    METHODS:
+*      get_line IMPORTING iv_carrid          TYPE s_carr_id
+*               RETURNING VALUE(rv_carrname) TYPE s_carrname.
+*ENDCLASS.
+*
+*
+*
+*CLASS lcl_main IMPLEMENTATION.
+*  METHOD get_line.
+*     SELECT SINGLE carrname FROM scarr
+*    INTO @rv_carrname
+*    WHERE carrid  EQ @iv_carrid.
+*  ENDMETHOD.
+*ENDCLASS.
+*
+*START-OF-SELECTION.
+*
+*DATA(lo_main) = NEW lcl_main( ).
+*
+*DATA(lv_carrname) = lo_main->get_line( iv_carrid = 'AB').
+*
+*WRITE: lv_carrname.
+*
+*
+*
+*
+
+
+
+
+
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*******************************************
+***  LOOP AT GROUP BY
+*******************************************
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+**
+*-------------------------------------------
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*
+*
+*TYPES: BEGIN OF gty_personel,
+*  personel TYPE CHAR2,
+*  department TYPE char2,
+*  working_year TYPE i,
+*  END OF gty_personel.
+*
+*  TYPES: gtt_personel TYPE TABLE OF gty_personel WITH key personel.
+*
+*  DATA(lt_pers) = VALUE gtt_personel( ( personel = 'P1' department = 'D1' working_year = 2 )
+*                                      ( personel = 'P2' department = 'D2' working_year = 3 )
+*                                      ( personel = 'P3' department = 'D3' working_year = 1 )
+*                                      ( personel = 'P4' department = 'D1' working_year = 7 )
+*                                      ( personel = 'P5' department = 'D2' working_year = 8 )
+*                                      ( personel = 'P5' department = 'D3' working_year = 9 )
+*                                      ( personel = 'P7' department = 'D1' working_year = 4 ) ).
+*
+*LOOP AT lt_pers INTO DATA(ls_pers) GROUP BY ( department = ls_pers-department ).
+*WRITE: / ls_pers-department.
+*ENDLOOP.
+
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*******************************************
+***  BASE
+*******************************************
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+**
+*-------------------------------------------
+
+
+
+
+
+
+
+*-------------------------------------------
+*
+*NEW
+*
+*-------------------------------------------
+
+*
+*
+*TYPES: BEGIN OF gty_source,
+*         col1 TYPE char1,
+*         col2 TYPE char1,
+*       END OF gty_source.
+*
+*
+*
+*TYPES: BEGIN OF gty_target,
+*         col2 TYPE char1,
+*         col3 TYPE char1,
+*       END OF gty_target.
+*
+*DATA: gs_source  TYPE gty_source,
+*      gs_target1 TYPE gty_target,
+*      gs_target2 TYPE gty_target.
+*
+*
+*
+*gs_source = VALUE #( col1 = '1'
+*                     col2 = '2' ).
+*
+*gs_target1 = VALUE #( col2 = 'a'
+*                      col3  =  'b' ).
+*
+*gs_target2 = VALUE #( col2 = 'a'
+*                      col3 =  'b' ).
+*
+*cl_demo_output=>write_data( gs_source ).
+*cl_demo_output=>write_data( gs_target2 ).
+*gs_target2 = CORRESPONDING #( BASE ( gs_target2 ) gs_source ).
+*
+*cl_demo_output=>write_data( gs_target2 ).
+*
+*cl_demo_output=>display( ).
